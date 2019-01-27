@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 // For protective routes
 const passport = require("passport");
 
+// Load validation
+const validateProfileInput = require("../../validation/profile");
+
 // Load profile model
 const Profile = require("../../models/Profile");
 // Load user profile
@@ -24,8 +27,11 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     const errors = {};
+
     // Finding the user from Profile
     Profile.findOne({ user: req.user.id })
+      // Fetches data from user schema
+      .populate("user", ["name", "avatar"])
       .then(profile => {
         // Checking that there is the actual profile
         if (!profile) {
@@ -47,6 +53,14 @@ router.post(
   "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const { errors, isValid } = validateProfileInput(req.body);
+
+    // Check validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
     // Get fields
     const profileFields = {};
     profileFields.user = req.user.id; // Includes avatar, name and email
