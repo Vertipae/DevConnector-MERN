@@ -247,19 +247,24 @@ router.delete(
   "/experience/:exp_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
     Profile.findOne({ user: req.user.id })
       .then(profile => {
         // Get remove index
         const removeIndex = profile.experience
           .map(item => item.id)
           .indexOf(req.params.exp_id);
+        if (removeIndex == -1) {
+          errors.noexptodelete = "There is no experience to delete";
+          res.status(404).json(errors);
+        } else {
+          // Splice out of array (profile)
+          profile.experience.splice(removeIndex, 1);
+          // console.log(profile);
 
-        // Splice out of array (profile)
-        profile.experience.splice(removeIndex, 1);
-        // console.log(profile);
-
-        // Save
-        profile.save().then(profile => res.json(profile));
+          // Save
+          profile.save().then(profile => res.json(profile));
+        }
       })
       .catch(err => res.status(404).json(err));
   }
@@ -272,19 +277,27 @@ router.delete(
   "/education/:edu_id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    const errors = {};
     Profile.findOne({ user: req.user.id })
       .then(profile => {
         // Get remove index
         const removeIndex = profile.education
           .map(item => item.id)
           .indexOf(req.params.edu_id);
+        // console.log(removeIndex);
 
-        // Splice out of array (profile)
-        profile.education.splice(removeIndex, 1);
-        // console.log(profile);
+        if (removeIndex == -1) {
+          errors.noedutodelete = "There is no education to delete";
 
-        // Save
-        profile.save().then(profile => res.json(profile));
+          res.status(404).json(errors);
+        } else {
+          // Splice out of array (profile)
+          profile.education.splice(removeIndex, 1);
+          // console.log(profile);
+
+          // Save
+          profile.save().then(profile => res.json(profile));
+        }
       })
       .catch(err => res.status(404).json(err));
   }
