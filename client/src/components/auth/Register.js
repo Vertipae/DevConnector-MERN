@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import axios from "axios";
+import classnames from "classnames";
 
 class Register extends Component {
   // component state
@@ -31,9 +33,18 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    console.log(newUser);
+    // console.log(newUser);
+    axios
+      // Because of the proxy value in package.json localhost:5000 it is fine to do /api/users/register
+      .post("/api/users/register", newUser)
+      .then(res => console.log(res.data))
+      //   .catch(err => console.log(err))
+      //   .catch(err => console.log(err.response.data));
+      .catch(err => this.setState({ errors: err.response.data }));
   }
   render() {
+    const { errors } = this.state; // const errors = this.state.errors
+
     return (
       <div className="register">
         <div className="container">
@@ -47,7 +58,11 @@ class Register extends Component {
                 <div className="form-group">
                   <input
                     type="text"
-                    className="form-control form-control-lg"
+                    // className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      // from-control form-control-lg are in default
+                      "is-invalid": errors.name // is-invalid is used when input has an error when it has an error outline becomes red (/validation/register.js)
+                    })}
                     placeholder="Name"
                     name="name"
                     value={this.state.name} // linking this to state value
@@ -55,16 +70,27 @@ class Register extends Component {
                     onChange={this.onChange}
                     // required
                   />
+
+                  {errors.name && (
+                    <div className="invalid-feedback">{errors.name}</div> // Error message comes from the backend /validation/register.js // This is cool
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="email"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.email
+                    })}
                     placeholder="Email Address"
                     name="email"
                     value={this.state.email} // linking this to state value
                     onChange={this.onChange}
                   />
+
+                  {errors.email && (
+                    <div className="invalid-feedback">{errors.email}</div> // Error message
+                  )}
+
                   <small className="form-text text-muted">
                     This site uses Gravatar so if you want a profile image, use
                     a Gravatar email
@@ -73,22 +99,33 @@ class Register extends Component {
                 <div className="form-group">
                   <input
                     type="password"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.password
+                    })}
                     placeholder="Password"
                     name="password"
                     value={this.state.password} // linking this to state value
                     onChange={this.onChange}
                   />
+
+                  {errors.password && (
+                    <div className="invalid-feedback">{errors.password}</div> // Error message
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="password"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.password2
+                    })}
                     placeholder="Confirm Password"
                     name="password2"
                     value={this.state.password2} // linking this to state value
                     onChange={this.onChange}
                   />
+                  {errors.password2 && (
+                    <div className="invalid-feedback">{errors.password2}</div> // Error message
+                  )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
