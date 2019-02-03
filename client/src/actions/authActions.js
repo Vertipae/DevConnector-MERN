@@ -1,7 +1,7 @@
 import axios from "axios";
 import setAuthToken from "../utils/setAuthToken";
-
-import { GET_ERRORS } from "./types";
+import jwt_decode from "jwt-decode";
+import { GET_ERRORS, SET_CURRENT_USER } from "./types";
 
 // Register user
 // Thunk allows to write action creators that return a function instead of an action (dispatch)
@@ -31,6 +31,10 @@ export const loginUser = userData => dispatch => {
       localStorage.setItem("jwtToken", token);
       // Set token to Auth header
       setAuthToken(token);
+      // Decode token to get user data and storing the user data to decoded (also the add date and expiration of the token)
+      const decoded = jwt_decode(token);
+      // Set current user
+      dispatch(setCurrentUser(decoded));
     })
     .catch(err =>
       dispatch({
@@ -38,4 +42,12 @@ export const loginUser = userData => dispatch => {
         payload: err.response.data
       })
     );
+};
+
+// Set logged in user
+export const setCurrentUser = decoded => {
+  return {
+    type: SET_CURRENT_USER,
+    payload: decoded
+  };
 };
