@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 // import axios from "axios";
 import classnames from "classnames";
 // Connecting redux to this component
@@ -21,6 +22,26 @@ class Register extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+  // Testing the errors prop // Getting the errors from redux state (deprecated)
+  //   componentWillReceiveProps(nextProps) {
+  //     if (nextProps.errors) {
+  //       this.setState({ errors: nextProps.errors });
+  //     }
+  //   }
+
+  // Testing the errors prop // Getting the errors from redux state and moving them to component state (without changing the component error state)
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.errors) {
+      return { errors: nextProps.errors };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.errors !== this.props.errors) {
+      this.setState({ errors: this.props.errors });
+    }
+  }
 
   // Takes event parameter
   // Fireoffs when typing to input and changes the state variables
@@ -37,26 +58,20 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    this.props.registerUser(newUser);
+    this.props.registerUser(newUser, this.props.history);
 
     // console.log(newUser);
-    // axios
-    // Because of the proxy value in package.json localhost:5000 it is fine to do /api/users/register
-    //   .post("/api/users/register", newUser)
-    //   .then(res => console.log(res.data))
-    //   .catch(err => console.log(err))
-    //   .catch(err => console.log(err.response.data));
-    //   .catch(err => this.setState({ errors: err.response.data }));
   }
   render() {
-    const { errors } = this.state; // const errors = this.state.errors
+    const { errors } = this.state; // const errors = this.state.errors (component state error)
+    // const { errors } = this.props;
 
-    const { user } = this.props.auth;
+    // const { user } = this.props.auth;
 
     return (
       <div className="register">
         {/* shows the user name if its not null */}
-        {user ? user.name : null}
+        {/* {user ? user.name : null} */}
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
@@ -149,16 +164,18 @@ class Register extends Component {
 
 Register.propTypes = {
   registerUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired
 };
 
 // Putting the auth state inside of a proprerty called auth so it can be accessed // example: (anything thats in that state )this.props.auth.user
 // Comes from rootReduce reducers/index.js
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  errors: state.errors
 });
 
 export default connect(
   mapStateToProps, // Popping it in here order it to work
   { registerUser }
-)(Register);
+)(withRouter(Register));
