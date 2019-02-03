@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
+import PropTypes from "prop-types";
+// import axios from "axios";
 import classnames from "classnames";
+// Connecting redux to this component
+import { connect } from "react-redux";
+import { registerUser } from "../../actions/authActions";
 
 class Register extends Component {
   // component state
@@ -33,20 +37,26 @@ class Register extends Component {
       password2: this.state.password2
     };
 
+    this.props.registerUser(newUser);
+
     // console.log(newUser);
-    axios
-      // Because of the proxy value in package.json localhost:5000 it is fine to do /api/users/register
-      .post("/api/users/register", newUser)
-      .then(res => console.log(res.data))
-      //   .catch(err => console.log(err))
-      //   .catch(err => console.log(err.response.data));
-      .catch(err => this.setState({ errors: err.response.data }));
+    // axios
+    // Because of the proxy value in package.json localhost:5000 it is fine to do /api/users/register
+    //   .post("/api/users/register", newUser)
+    //   .then(res => console.log(res.data))
+    //   .catch(err => console.log(err))
+    //   .catch(err => console.log(err.response.data));
+    //   .catch(err => this.setState({ errors: err.response.data }));
   }
   render() {
     const { errors } = this.state; // const errors = this.state.errors
 
+    const { user } = this.props.auth;
+
     return (
       <div className="register">
+        {/* shows the user name if its not null */}
+        {user ? user.name : null}
         <div className="container">
           <div className="row">
             <div className="col-md-8 m-auto">
@@ -137,4 +147,18 @@ class Register extends Component {
   }
 }
 
-export default Register;
+Register.propTypes = {
+  registerUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+// Putting the auth state inside of a proprerty called auth so it can be accessed // example: (anything thats in that state )this.props.auth.user
+// Comes from rootReduce reducers/index.js
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(
+  mapStateToProps, // Popping it in here order it to work
+  { registerUser }
+)(Register);
