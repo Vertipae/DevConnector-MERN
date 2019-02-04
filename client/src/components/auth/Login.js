@@ -17,6 +17,15 @@ class Login extends Component {
     this.onChange = this.onChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
+
+  componentDidMount() {
+    if (this.props.auth.isAuthenticated) {
+      // Cheking that if the user is logged in
+      // If thats true then redirect user to dashboard
+      this.props.history.push("/dashboard");
+    }
+  }
+
   // Tässä vanhassa authentikointi tehdään vain esimmäisellä avaus kerralla, eikä puske suoraa sisää
   // componentDidMount() {
   //   if (this.props.auth.isAuthenticated) {
@@ -40,6 +49,7 @@ class Login extends Component {
   // Pyörittää joka kerta kun state muuttuu
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.errors !== this.props.errors) {
+      // Kattoo onko vanhat errorit erinlaiset kuin nykyiset (kun menee error tilasta error tilaan niin osaa vaihtaa error viestejä)
       this.setState({ errors: this.props.errors });
     }
     if (this.props.auth.isAuthenticated) {
@@ -51,6 +61,7 @@ class Login extends Component {
   onChange(e) {
     this.setState({ [e.target.name]: e.target.value });
   }
+
   onSubmit(e) {
     e.preventDefault();
     const userData = {
