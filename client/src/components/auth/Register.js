@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 // import axios from "axios";
-import classnames from "classnames";
+// import classnames from "classnames";
 // Connecting redux to this component
 import { connect } from "react-redux";
 import { registerUser } from "../../actions/authActions";
