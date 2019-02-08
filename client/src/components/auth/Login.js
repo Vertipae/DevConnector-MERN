@@ -20,21 +20,29 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    console.log("login mount");
+    console.log(this.props.auth);
     if (this.props.auth.isAuthenticated) {
       // Cheking that if the user is logged in
       // If thats true then redirect user to dashboard
       this.props.history.push("/dashboard");
+      console.log(this.props.history);
     }
   }
 
   // Tässä vanhassa authentikointi tehdään vain esimmäisellä avaus kerralla, eikä puske suoraa sisää
   // componentDidMount() {
+  //   console.log(this.props);
   //   if (this.props.auth.isAuthenticated) {
   //     this.props.history.push("/dashboard");
   //   }
   // }
-  // Täällä se puskis suoraa sisää
+  // // Täällä se puskis suoraa sisää
   // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.auth.isAuthenticated) {
+  //     this.props.history.push("/dashboard");
+  //   }
+
   //   if (nextProps.errors) {
   //     this.setState({ errors: nextProps.errors });
   //   }
@@ -49,10 +57,12 @@ class Login extends Component {
   }
   // Pyörittää joka kerta kun state muuttuu
   componentDidUpdate(prevProps, prevState) {
+    console.log("update");
     if (prevProps.errors !== this.props.errors) {
       // Kattoo onko vanhat errorit erinlaiset kuin nykyiset (kun menee error tilasta error tilaan niin osaa vaihtaa error viestejä)
       this.setState({ errors: this.props.errors });
     }
+    // console.log(this.props);
     if (this.props.auth.isAuthenticated) {
       this.setState({ isAuthenticated: this.props.auth.isAuthenticated });
       this.props.history.push("/dashboard");
@@ -69,13 +79,13 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    // console.log(user);
+    console.log(userData);
     this.props.loginUser(userData); // Calling the loginUSer action in authActions.js
   }
 
   render() {
     const { errors } = this.state;
-
+    // console.log(this.props.auth);
     return (
       <div className="login">
         <div className="container">
