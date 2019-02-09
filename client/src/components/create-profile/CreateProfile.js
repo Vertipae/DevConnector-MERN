@@ -57,7 +57,7 @@ class CreateProfile extends Component {
           <InputGroup
             placeholder="Twitter Profile URL"
             name="twitter"
-            icon="fab fa-twitter"
+            icon="fab fa-fw fa-twitter"
             value={this.state.twitter}
             onChange={this.onChange}
             error={errors.twitter}
@@ -66,7 +66,7 @@ class CreateProfile extends Component {
           <InputGroup
             placeholder="Facebook Profile URL"
             name="facebook"
-            icon="fab fa-facebook"
+            icon="fab fa-fw fa-facebook"
             value={this.state.facebook}
             onChange={this.onChange}
             error={errors.facebook}
@@ -75,7 +75,7 @@ class CreateProfile extends Component {
           <InputGroup
             placeholder="Linkedin Profile URL"
             name="linkedin"
-            icon="fab fa-linkedin"
+            icon="fab fa-fw fa-linkedin"
             value={this.state.linkedin}
             onChange={this.onChange}
             error={errors.linkedin}
@@ -84,7 +84,7 @@ class CreateProfile extends Component {
           <InputGroup
             placeholder="YouTube Channel URL"
             name="youtube"
-            icon="fab fa-youtube"
+            icon="fab fa-fw fa-youtube"
             value={this.state.youtube}
             onChange={this.onChange}
             error={errors.youtube}
@@ -93,7 +93,7 @@ class CreateProfile extends Component {
           <InputGroup
             placeholder="Instagram Profile URL"
             name="instagram"
-            icon="fab fa-instagram"
+            icon="fab fa-fw fa-instagram"
             value={this.state.instagram}
             onChange={this.onChange}
             error={errors.instagram}
