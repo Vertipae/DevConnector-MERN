@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import TextFieldGroup from "../common/TextFieldGroup";
 import TextAreaFieldGroup from "../common/TextAreaFieldGroup";
 import InputGroup from "../common/InputGroup";
 import SelectListGroup from "../common/SelectListGroup";
 import { Redirect } from "react-router-dom";
+import { createProfile } from "../../actions/profileActions";
 
 class CreateProfile extends Component {
   // Components state values
@@ -35,10 +37,34 @@ class CreateProfile extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) {
+      // If nextProps.errors exists then setting the errors to component state
+      this.setState({ errors: nextProps.errors });
+    }
+  }
+
   onSubmit(e) {
     e.preventDefault();
-
     // console.log("submit");
+    // profileData variable which is object that has all of the profile fields (which are in form)
+    const profileData = {
+      handle: this.state.handle,
+      company: this.state.company,
+      website: this.state.website,
+      location: this.state.location,
+      status: this.state.status,
+      skills: this.state.skills,
+      githubusername: this.state.githubusername,
+      bio: this.state.bio,
+      twitter: this.state.twitter,
+      facebook: this.state.facebook,
+      linkedin: this.state.linkedin,
+      youtube: this.state.youtube,
+      instagram: this.state.instagram
+    };
+    // Calling redux action // History for the redirect to dashboard (profileActions.js)(import withRouter)
+    this.props.createProfile(profileData, this.props.history);
   }
 
   onChange(e) {
@@ -205,6 +231,8 @@ class CreateProfile extends Component {
 
                 <div className="mb-3">
                   <button
+                    // have to specify this to type=button so it doesn't submit the form
+                    type="button"
                     onClick={() => {
                       this.setState({
                         // Toggles the piece of state displaySocialInputs
@@ -247,4 +275,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps)(CreateProfile);
+export default connect(
+  mapStateToProps,
+  { createProfile }
+)(withRouter(CreateProfile));
