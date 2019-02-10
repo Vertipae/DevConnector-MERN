@@ -62,6 +62,12 @@ class CreateProfile extends Component {
       linkedin: this.state.linkedin,
       youtube: this.state.youtube,
       instagram: this.state.instagram
+      // For cleaner code (same as above but deletes displaySocialInputs and errors from the state because they are not needed in API endpoints)
+      //   const profileData = {
+      //     ...this.state
+      //   };
+      //   delete profileData["displaySocialInputs"];
+      //   delete profileData["errors"];
     };
     // Calling redux action // History for the redirect to dashboard (profileActions.js)(import withRouter)
     this.props.createProfile(profileData, this.props.history);
