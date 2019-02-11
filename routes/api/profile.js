@@ -126,10 +126,22 @@ router.post(
     const profileFields = {};
     profileFields.user = req.user.id; // Includes avatar, name and email
     if (req.body.handle) profileFields.handle = req.body.handle;
-    if (req.body.company) profileFields.company = req.body.company;
-    if (req.body.website) profileFields.website = req.body.website;
-    if (req.body.location) profileFields.location = req.body.location;
-    if (req.body.bio) profileFields.bio = req.body.bio;
+    req.body.company
+      ? (profileFields.company = req.body.company) // Jos ehto ei toteudu niin on tyhjä (voi tallentaa tyhjän yrityksen)
+      : (profileFields.company = "");
+
+    req.body.website
+      ? (profileFields.website = req.body.website)
+      : (profileFields.website = "");
+
+    req.body.location
+      ? (profileFields.location = req.body.location)
+      : (profileFields.location = "");
+
+    req.body.bio
+      ? (profileFields.bio = req.body.bio)
+      : (profileFields.bio = "");
+
     if (req.body.status) profileFields.status = req.body.status;
     if (req.body.githubusername)
       profileFields.githubusername = req.body.githubusername;

@@ -102,7 +102,7 @@ class CreateProfile extends Component {
   onSubmit(e) {
     e.preventDefault();
     // console.log("submit");
-    // profileData variable which is object that has all of the profile fields (which are in form)
+    // profileData variable which is object that has all of the profile fields (which are in form) // Getting everything in the form and after that calling createProfile
     const profileData = {
       handle: this.state.handle,
       company: this.state.company,

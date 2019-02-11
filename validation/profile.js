@@ -5,7 +5,9 @@ module.exports = function validateProfilenInput(data) {
   let errors = {};
   // Validator only accpets strings so null or undefined is changed to empty string
   data.handle = !isEmpty(data.handle) ? data.handle : "";
-  data.status = !isEmpty(data.status) ? data.status : "";
+  // console.log(data.status === "0");
+  data.status = !isEmpty(data.status) && data.status !== "0" ? data.status : "";
+
   data.skills = !isEmpty(data.skills) ? data.skills : "";
 
   if (!Validator.isLength(data.handle, { min: 2, max: 40 })) {
@@ -15,9 +17,10 @@ module.exports = function validateProfilenInput(data) {
   if (Validator.isEmpty(data.handle)) {
     errors.handle = "Profile handle is required";
   }
-
+  // console.log(data.status);
   if (Validator.isEmpty(data.status)) {
     errors.status = "Status field is required";
+    // console.log(errors);
   }
 
   if (Validator.isEmpty(data.skills)) {
