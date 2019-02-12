@@ -5,7 +5,8 @@ import {
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GET_PROFILES
 } from "./types";
 
 // GET current profile
@@ -102,6 +103,27 @@ export const deleteEducation = id => dispatch => {
       })
     );
 };
+
+// Get all profiles
+export const getProfiles = () => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get("/api/profile/all")
+    .then(res =>
+      dispatch({
+        type: GET_PROFILES,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILES,
+        // Keeping the profiles state as null in the reducer
+        payload: null
+      })
+    );
+};
+
 // Delete account & profile
 export const deleteAccount = () => dispatch => {
   if (window.confirm("Are you sure? This can NOT be undone !")) {

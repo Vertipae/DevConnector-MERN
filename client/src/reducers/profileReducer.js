@@ -1,5 +1,6 @@
 import {
   GET_PROFILE,
+  GET_PROFILES,
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE
 } from "../actions/types";
@@ -22,6 +23,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         profile: action.payload, // profileActions.js fetches current profiles data and in here profile is filled with that users data
+        loading: false
+      };
+    case GET_PROFILES:
+      return {
+        ...state, // current state
+        profiles: action.payload,
         loading: false
       };
     case CLEAR_CURRENT_PROFILE:
