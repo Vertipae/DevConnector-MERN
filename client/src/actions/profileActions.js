@@ -29,6 +29,26 @@ export const getCurrentProfile = () => dispatch => {
     );
 };
 
+// GET profile by handle
+export const getProfileByHandle = handle => dispatch => {
+  dispatch(setProfileLoading());
+  axios
+    .get(`/api/profile/handle/${handle}`)
+    .then(res => {
+      console.log(res);
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data
+      });
+    })
+    .catch(err =>
+      dispatch({
+        type: GET_PROFILE,
+        payload: null // If there's an issue this is going to be null
+      })
+    );
+};
+
 // Create Profile // history for the redirect (after the user has created a profile) // This is an awesome function
 export const createProfile = (profileData, history) => dispatch => {
   axios
