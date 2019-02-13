@@ -19,7 +19,7 @@ export default function(state = initialState, action) {
         loading: true
       };
     case GET_PROFILE:
-      console.log(action.payload);
+      // console.log(action.payload);
       return {
         ...state,
         profile: action.payload, // profileActions.js fetches current profiles data and in here profile is filled with that users data
