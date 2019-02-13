@@ -35,8 +35,11 @@ class Profile extends Component {
           </div>
           {/* Note to self: Don't need redux to fetch the profile from within the header because it's just a subcomponent */}
           <ProfileHeader profile={profile} />
-          <ProfileAbout />
-          <ProfileCreds />
+          <ProfileAbout profile={profile} />
+          <ProfileCreds
+            education={profile.education}
+            experience={profile.experience}
+          />
           <ProfileGithub />
         </div>
       );
