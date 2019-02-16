@@ -22,6 +22,7 @@ import AddEducation from "./components/add-credentials/AddEducation";
 import Profiles from "./components/profiles/Profiles";
 import Profile from "./components/profile/Profile";
 import NotFound from "./components/not-found/NotFound";
+import Posts from "./components/posts/Posts";
 import "./App.css";
 
 // Check for token from localStorage (logic for refreshing the page so the token doesn't disappear)
@@ -66,6 +67,7 @@ class App extends Component {
               <Route exact path="/profiles" component={Profiles} />
               <Route exact path="/profile/:handle" component={Profile} />
               <Route exact path="/not-found" component={NotFound} />
+              <Route exact path="/feed" component={Posts} />
             </div>
             <Footer />
           </div>
