@@ -1,6 +1,12 @@
 import axios from "axios";
 
-import { ADD_POST, GET_ERRORS, GET_POSTS, POST_LOADING } from "./types";
+import {
+  ADD_POST,
+  GET_ERRORS,
+  GET_POSTS,
+  POST_LOADING,
+  DELETE_POST
+} from "./types";
 
 // Add post
 export const addPost = postData => dispatch => {
@@ -8,7 +14,7 @@ export const addPost = postData => dispatch => {
   axios
     .post("/api/posts", postData)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       dispatch({
         type: ADD_POST,
         payload: res.data // The actual post data
@@ -28,7 +34,7 @@ export const getPosts = () => dispatch => {
   axios
     .get("/api/posts")
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       dispatch({
         type: GET_POSTS,
         payload: res.data // The actual post data
@@ -40,6 +46,60 @@ export const getPosts = () => dispatch => {
         payload: null
       })
     );
+};
+
+// Delete post
+export const deletePost = id => dispatch => {
+  axios
+    .delete(`/api/posts/${id}`)
+    .then(res => {
+      console.log(res.data);
+      dispatch({
+        type: DELETE_POST,
+        payload: id
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Add like
+export const addLike = id => dispatch => {
+  axios
+    .post(`/api/posts/like/${id}`)
+    .then(res => {
+      // console.log(res.data);
+      dispatch(getPosts());
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
+};
+
+// Remove like
+export const removeLike = id => dispatch => {
+  axios
+    .post(`/api/posts/unlike/${id}`)
+    .then(res => {
+      // console.log(res.data);
+      dispatch(getPosts());
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      });
+    });
 };
 
 // Set loading state
