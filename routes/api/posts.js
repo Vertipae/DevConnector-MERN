@@ -56,7 +56,7 @@ router.post(
       // Pulling this information from the state
       text: req.body.text,
       name: req.body.name,
-      avatar: req.body.name.avatar,
+      avatar: req.body.avatar,
       user: req.user.id
     });
 

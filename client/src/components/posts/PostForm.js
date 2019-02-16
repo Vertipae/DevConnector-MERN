@@ -28,11 +28,13 @@ class PostForm extends Component {
     // Getting user from the auth so we know who submitted the post
     const { user } = this.props.auth;
     // Inserting these to post
+
     const newPost = {
       text: this.state.text,
       name: user.name,
       avatar: user.avatar
     };
+    // console.log(newPost);
 
     this.props.addPost(newPost);
     // Clearing the text field
