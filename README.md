@@ -8,7 +8,7 @@ https://awesomedevconnector.herokuapp.com/
 
 ### Development Environment:
 
-1. Make a new file called keys:dev.js inside folder called /config
+1. Make a new file called keys_dev.js inside folder called /config
 ```
 module.exports = {
 mongoURI: "mongodb://<dbuser>:<dbpassword>@ds12345.mlab.com:12345/devconnector",
