@@ -22,6 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/config
+/config/keys_dev.js
 
 /client/node_modules
